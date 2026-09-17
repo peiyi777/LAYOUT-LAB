@@ -192,7 +192,7 @@ function render(){
    }
  }
  faces.sort((a,b)=>a.depth-b.depth);
- let html='<title>関善会場の実測縮尺レイアウト</title><desc>床561×373cm、囲炉裏151×151cm。選択した家具は真上視点で5cm刻みに動かせます。</desc>';
+ let html='<title>会場の実測縮尺レイアウト</title><desc>床561×373cm、囲炉裏151×151cm。選択した家具は真上視点で5cm刻みに動かせます。</desc>';
  html+=floorFaces.sort((a,b)=>a.depth-b.depth).map(f=>f.html).join('');
  if($('showGrid').checked&&view==='top'){
    let grid='';
