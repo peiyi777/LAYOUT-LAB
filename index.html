@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>関善｜SVG 3D会場レイアウト</title>
+<style>
+:root{color-scheme:light;--ink:#193a42;--sub:#5d7075;--bg:#f1f4f2;--paper:#fff;--border:#d6e0dd;--accent:#12685d;--soft:#e2f2ec;--danger:#b73432;--amber:#855112}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif}button,input,select{font:inherit;color:inherit}button,select,input[type=number]{border:1px solid var(--border);border-radius:8px;background:var(--paper);padding:8px 10px;min-height:40px;max-width:100%}button{cursor:pointer}button:hover:not(:disabled){background:var(--soft)}button:disabled{opacity:.45;cursor:not-allowed}button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible,svg:focus-visible{outline:3px solid #3b9d91;outline-offset:2px}button[aria-pressed=true],.primary{color:#fff;background:var(--accent);border-color:var(--accent)}button[aria-pressed=true]:hover,.primary:hover:not(:disabled){background:#15554e}.danger{color:var(--danger)}
+header{padding:22px 28px;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:space-between;gap:18px}header .eyebrow{font-size:11px;letter-spacing:.19em;color:#b9d7cc}h1{font-size:23px;font-weight:600;line-height:1.3;margin:4px 0}header p{margin:3px 0 0;font-size:12px;color:#d4e0dc}.header-count{white-space:nowrap;font-size:13px}.header-count b{font-size:32px;font-weight:500;margin-right:4px}.app{max-width:1500px;margin:auto;padding:18px 22px}.workspace{display:grid;grid-template-columns:minmax(0,1fr) 325px;gap:16px}.scene-card,.sidebar,.notes{background:var(--paper);border:1px solid var(--border);border-radius:13px}.scene-card{align-self:start;overflow:hidden}.toolbar{padding:12px;display:flex;gap:9px;flex-wrap:wrap;align-items:center;border-bottom:1px solid var(--border)}.cluster{display:flex;align-items:center;gap:5px}.toolbar .spacer{flex:1}.toolbar label{display:flex;align-items:center;gap:5px;font-size:12px}.toolbar input{accent-color:var(--accent)}.scene-wrap{background:#f5f7f3}#scene{display:block;width:100%;height:560px;touch-action:none;user-select:none;cursor:grab}#scene [data-object]{cursor:pointer}#scene.drag-mode [data-object]{cursor:move}.view-note{padding:10px 14px;color:var(--sub);font-size:12px;border-top:1px solid var(--border)}.scene-bottom{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;padding:10px 14px;border-top:1px solid var(--border);font-size:12px}.legend{display:flex;gap:13px;flex-wrap:wrap}.key:before{content:"";display:inline-block;width:11px;height:11px;background:var(--swatch);margin-right:5px;border-radius:3px}.sidebar{padding:17px;align-self:start}.block+.block{border-top:1px solid var(--border);margin-top:15px;padding-top:15px}h2{font-size:14px;margin:0 0 9px;font-weight:600}.presets{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}.tiny{font-size:12px;color:var(--sub)}.preset-note{margin:9px 0 0;min-height:2em}.stats{display:flex;justify-content:space-between;margin:10px 0;color:var(--sub);font-size:13px}.row{display:flex;gap:7px;align-items:center}.row>*{min-width:0;flex:1}.field{display:block;margin:8px 0}.field span{display:block;font-size:12px;color:var(--sub);margin-bottom:3px}select{width:100%}.xy{display:grid;grid-template-columns:1fr 1fr;gap:8px}.xy input{width:100%}.move-pad{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin:9px 0}.move-pad .unit{display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--sub)}.movement-note{margin:8px 0 0;color:var(--sub);font-size:12px}.status{border-radius:8px;padding:9px 11px;background:#edf4f1;font-size:13px}.status.bad{background:#fcebe8;color:#9b2e29}.status.caution{background:#fff2de;color:var(--amber)}#issue-list{margin:8px 0;padding:0;list-style:none;max-height:175px;overflow:auto;font-size:12px}#issue-list li{padding:6px 0;border-bottom:1px solid #edf0ee}#issue-list button{font-size:12px;padding:3px 6px;min-height:28px;text-align:left}.notice{padding:9px 11px;background:#fff6e8;border-radius:8px;font-size:12px;color:var(--amber);margin-top:10px}.save-row{margin-top:10px}.notes{margin-top:16px;padding:14px 17px}summary{cursor:pointer;font-weight:500}table{border-collapse:collapse;width:100%;margin-top:12px;font-size:13px}th,td{text-align:left;padding:8px;border-bottom:1px solid var(--border);vertical-align:top}th{font-weight:500}td:last-child{color:var(--sub)}.notes p{font-size:12px;color:var(--sub)}#message{font-size:12px;color:var(--sub);min-height:20px;margin:8px 0 0}.file-input{display:none}
+@media(min-width:1300px){#scene{height:620px}}@media(max-width:900px){.workspace{grid-template-columns:1fr}.sidebar{display:grid;grid-template-columns:1fr 1fr;gap:16px}.block+.block{border:0;margin:0;padding:0}#scene{height:510px}}@media(max-width:540px){header{padding:16px;align-items:flex-start}h1{font-size:19px}.header-count b{font-size:26px}.app{padding:10px}.sidebar{display:block;padding:14px}.block+.block{border-top:1px solid var(--border);margin-top:15px;padding-top:15px}.toolbar{gap:7px}#scene{height:370px}.toolbar .spacer{display:none}button{min-height:44px}.notes{padding:12px}th,td{padding:7px 4px;font-size:12px}.header-count{font-size:11px}.scene-bottom{align-items:flex-start}}
+@media print{header{background:#fff;color:#193a42}header p{color:#193a42}.sidebar,.toolbar,.save-row,.notes,#message{display:none}.workspace{display:block}.app{padding:0}#scene{height:650px}}
+@media(min-width:901px){.scene-card{position:sticky;top:12px}}
+</style>
+</head>
+<body>
+<header><div><div class="eyebrow">KAZUNO · SEKIZEN / LAYOUT LAB</div><h1>SVG 3D 会場レイアウト</h1><p>実測に基づく配置検討用 · オフライン対応</p></div><div class="header-count"><b id="people">12</b>席 / 上限20席</div></header>
+<main class="app">
+<div class="workspace">
+<section class="scene-card" aria-label="会場の配置図">
+  <div class="toolbar">
+    <div class="cluster"><button id="view3d" aria-pressed="true">3D</button><button id="viewTop" aria-pressed="false">真上・移動</button></div>
+    <div class="cluster"><button id="rotLeft" aria-label="視点を左へ15度回転">↶</button><button id="rotRight" aria-label="視点を右へ15度回転">↷</button></div>
+    <div class="cluster"><button id="zoomOut" aria-label="縮小">−</button><output id="zoomValue">100%</output><button id="zoomIn" aria-label="拡大">＋</button></div>
+    <div class="spacer"></div><label><input type="checkbox" id="showDims" checked>寸法</label><label><input type="checkbox" id="showGrid">5cm格子</label>
+  </div>
+  <div class="scene-wrap"><svg id="scene" xmlns="http://www.w3.org/2000/svg" role="group" aria-label="SVGで描画した会場。家具を選択し、真上視点でドラッグまたは矢印キーで5cmずつ移動できます。" tabindex="0"></svg></div>
+  <div class="view-note" id="viewHint">家具をクリックして選択。背景ドラッグで視点回転。「真上・移動」で家具を5cm刻みにドラッグできます。</div>
+  <div class="scene-bottom"><div class="legend"><span class="key" style="--swatch:#c89762">机</span><span class="key" style="--swatch:#b7cdaa">座布団</span><span class="key" style="--swatch:#c24738">重なり・床外</span></div><span>1席＝座布団1枚 · 人体の占有範囲は含まず</span></div>
+</section>
+<aside class="sidebar">
+  <section class="block"><h2>01　配置から始める</h2><div class="presets"><button data-preset="12" aria-pressed="true">12人</button><button data-preset="16" aria-pressed="false">16人</button><button data-preset="20" aria-pressed="false">20人</button></div><p class="tiny preset-note" id="presetNote"></p><div class="stats"><span>机 <b id="tableCount">6</b> / 10台</span><span>座布団 <b id="seatCount">12</b> / 20枚</span></div>
+  <label class="field"><span>追加する机の種類（幅×奥行）</span><select id="addKind"><option value="long">180×45cm · 長机</option><option value="small">120×75cm</option><option value="deep">120×80cm</option><option value="wide">175×75cm</option></select></label><div class="row"><button id="addTable">＋机</button><button id="addSeat">＋座布団</button></div></section>
+  <section class="block"><h2>02　選んで調整</h2><label class="field"><span>選択する家具</span><select id="objectSelect"><option value="">未選択</option></select></label><p class="tiny" id="selectedInfo">SVG上の家具をクリックしても選択できます。</p><div class="xy"><label class="field"><span>左右 X（cm）</span><input id="xPos" type="number" min="-400" max="400" step="5" disabled></label><label class="field"><span>前後 Z（cm）</span><input id="zPos" type="number" min="-300" max="300" step="5" disabled></label></div><div class="move-pad"><span></span><button data-move="0,-5" aria-label="奥へ5cm">↑ 奥</button><span></span><button data-move="-5,0" aria-label="左へ5cm">← 左</button><span class="unit">5cmずつ</span><button data-move="5,0" aria-label="右へ5cm">右 →</button><span></span><button data-move="0,5" aria-label="手前へ5cm">手前 ↓</button><span></span></div><div class="row"><button id="rotateObject" disabled>90°回転</button><button id="deleteObject" class="danger" disabled>選択物を削除</button></div><p class="movement-note">部屋の中心が原点。−Zは奥、＋Zは通路側。机と座布団は独立して移動・削除します。</p></section>
+  <section class="block"><h2>03　寸法・在庫チェック</h2><div id="status" class="status" aria-live="polite"></div><ul id="issue-list"></ul><div class="notice" id="inventory"></div><p class="tiny">判定は平面形状のみ。10cm未満の隙間は注意表示です（安全基準ではありません）。人体・PC・荷物・避難動線、柱や段差は現地確認が必要です。</p><div class="row"><button id="undo" disabled>元に戻す</button><button id="saveLocal">この端末に保存</button></div><div class="row save-row"><button id="exportJSON">配置を書き出す</button><button id="importJSON">配置を読み込む</button></div><div class="row save-row"><button id="restoreLocal">端末の保存を復元</button><button id="exportSVG">表示をSVG保存</button></div><input id="jsonFile" class="file-input" type="file" accept=".json,application/json"><p id="message" role="status"></p></section>
+</aside></div>
+<details class="notes"><summary>反映した実測寸法・メモと、未確認の条件</summary>
+<table><thead><tr><th>項目</th><th>値</th><th>扱い</th></tr></thead><tbody>
+<tr><td>床（小上がり）</td><td>561×373cm</td><td>画像①の実測記入値</td></tr>
+<tr><td>囲炉裏</td><td>151×151cm</td><td>左・右壁から各205cm、奥壁から112.5cm。手前余白109.5cmは差引計算。</td></tr>
+<tr><td>座布団</td><td>直径45cm／現在16枚</td><td>画像③の記載。20席なら4枚追加の確保が必要。</td></tr>
+<tr><td>既存机</td><td>120×75cm×2／120×80cm×1／175×75cm×2</td><td>画像②の記載。合計5台。アプリで各種類を選択可。</td></tr>
+<tr><td>追加の長机</td><td>180×45cm／8台以上</td><td>ユーザーのメモより。2人なら幅90cm／人、3人なら幅60cm／人。正確な在庫数は未確認。</td></tr>
+<tr><td>20人案</td><td>左右各4台＋中央2台＝10台</td><td>長机10台の確保を要確認。前後に余裕が少ない比較検討用の配置。</td></tr>
+<tr><td>高さ・建具</td><td>机高34cm、座布団厚4cmは表示用仮定</td><td>床・囲炉裏の平面寸法以外の柱、梁、窓、段差高さは未計測。障害物としての再現・判定はしません。</td></tr>
+</tbody></table><p>「重なりなし」は収容可能・安全の保証ではありません。すべての家具は5cm刻みの座標で操作できます。床と囲炉裏の実測値（小数を含む）は丸めていません。</p></details>
+</main>
+<script id="app">
+'use strict';
+(()=>{
+const $=id=>document.getElementById(id);
+const ROOM={w:561,d:373},HEARTH={type:'table',x:0,z:1.5,w:151,d:151,rot:0};
+const KINDS={long:{w:180,d:45,stock:8},small:{w:120,d:75,stock:2},deep:{w:120,d:80,stock:1},wide:{w:175,d:75,stock:2}};
+const svg=$('scene'),NS='http://www.w3.org/2000/svg',KEY='kazuno-svg-layout-v1';
+let items=[],selected='',presetName=12,nextId=1,history=[],view='3d',yaw=-.48,pitch=.82,zoom=1,W=900,H=560,drag=null,issues=[],narrow=[],badIds=new Set();
+const snap=n=>Math.round(n/5)*5,clamp=(n,a,b)=>Math.max(a,Math.min(b,n)),fmt=n=>Number(n.toFixed(1)).toString();
+const label=o=>(o.type==='table'?'机 ':'座 ')+(items.filter(p=>p.type===o.type).findIndex(p=>p.id===o.id)+1);
+const escapeXML=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&apos;'}[c]));
+const makeTable=(x,z,kind='long')=>({id:'t'+nextId++,type:'table',kind,x,z,rot:0});
+const makeSeat=(x,z)=>({id:'s'+nextId++,type:'seat',x,z,rot:0});
+const dims=o=>o.type==='seat'?{w:45,d:45}:o===HEARTH?{w:151,d:151}:o.rot%180?{w:KINDS[o.kind].d,d:KINDS[o.kind].w}:{w:KINDS[o.kind].w,d:KINDS[o.kind].d};
+function snapshot(){return JSON.stringify({items,selected,presetName,nextId});}
+function checkpoint(){history.push(snapshot());if(history.length>60)history.shift();}
+function custom(){presetName=null;}
+function setPreset(n,record=true){
+ if(record)checkpoint();items=[];selected='';nextId=1;presetName=n;
+ const rows=n===12?[-155,-40,75]:[-160,-70,20,110];
+ for(const x of [-185,185])for(const z of rows){
+   items.push(makeTable(x,z));const dz=n===12?55:45;
+   items.push(makeSeat(x-45,z+dz),makeSeat(x+45,z+dz));
+ }
+ if(n===20)for(const [z,sz] of [[-160,-110],[155,105]]){
+   items.push(makeTable(0,z),makeSeat(-45,sz),makeSeat(45,sz));
+ }
+ sync();
+}
+// Exact circle/circle and circle/rectangle clearance; rotations are quarter turns.
+function clearance(a,b){
+ if(a.type==='seat'&&b.type==='seat')return Math.hypot(a.x-b.x,a.z-b.z)-45;
+ if(a.type==='seat'||b.type==='seat'){
+   const c=a.type==='seat'?a:b,r=a.type==='seat'?b:a,d=dims(r);
+   const dx=Math.abs(c.x-r.x)-d.w/2,dz=Math.abs(c.z-r.z)-d.d/2;
+   return Math.hypot(Math.max(dx,0),Math.max(dz,0))+Math.min(Math.max(dx,dz),0)-22.5;
+ }
+ const da=dims(a),db=dims(b),dx=Math.abs(a.x-b.x)-(da.w+db.w)/2,dz=Math.abs(a.z-b.z)-(da.d+db.d)/2;
+ return Math.hypot(Math.max(dx,0),Math.max(dz,0))+Math.min(Math.max(dx,dz),0);
+}
+function boundaryGap(o){const d=dims(o);return Math.min(ROOM.w/2-Math.abs(o.x)-d.w/2,ROOM.d/2-Math.abs(o.z)-d.d/2);}
+function inspect(){
+ issues=[];narrow=[];badIds=new Set();
+ const add=(ids,text)=>{issues.push({ids,text});ids.forEach(id=>badIds.add(id));};
+ for(const o of items){
+   const g=boundaryGap(o),h=clearance(o,HEARTH);
+   if(g<-.001)add([o.id],label(o)+'：床外へ '+fmt(-g)+'cm');
+   else if(g<10)narrow.push({ids:[o.id],text:label(o)+' ↔ 床端：'+fmt(g)+'cm'});
+   if(h<-.001)add([o.id],label(o)+'：囲炉裏と重なり');
+   else if(h<10)narrow.push({ids:[o.id],text:label(o)+' ↔ 囲炉裏：'+fmt(h)+'cm'});
+ }
+ for(let i=0;i<items.length;i++)for(let j=i+1;j<items.length;j++){
+   const a=items[i],b=items[j],g=clearance(a,b),text=label(a)+' ↔ '+label(b);
+   if(g<-.001)add([a.id,b.id],text+'：重なり');
+   else if(g<10)narrow.push({ids:[a.id,b.id],text:text+'：隙間 '+fmt(g)+'cm'});
+ }
+}
+function inventoryNotes(){
+ const counts=Object.fromEntries(Object.keys(KINDS).map(k=>[k,items.filter(o=>o.kind===k).length]));
+ const seats=items.filter(o=>o.type==='seat').length,notes=[];
+ if(counts.long>8)notes.push('長机'+counts.long+'台を使用。「8台以上」とのメモのため、必要台数の確保を確認してください。');
+ for(const k of ['small','deep','wide'])if(counts[k]>KINDS[k].stock)notes.push(KINDS[k].w+'×'+KINDS[k].d+'cmは記載在庫'+KINDS[k].stock+'台を超えています。');
+ if(seats>16)notes.push('座布団は現在16枚とのメモ。追加'+(seats-16)+'枚が必要です。');
+ return notes.length?notes.join(' '):'記載在庫の範囲内です。実際に借用・使用できる台数は現地でご確認ください。';
+}
+function sync(){
+ inspect();
+ const ts=items.filter(o=>o.type==='table').length,ss=items.length-ts;
+ $('people').textContent=ss;$('tableCount').textContent=ts;$('seatCount').textContent=ss;
+ $('addTable').disabled=ts>=10;$('addSeat').disabled=ss>=20;$('undo').disabled=!history.length;
+ document.querySelectorAll('[data-preset]').forEach(b=>b.setAttribute('aria-pressed',+b.dataset.preset===presetName));
+ $('presetNote').textContent=presetName===12?'長机6台・左右各3列。1台あたり2席。':presetName===16?'長机8台・左右各4列。前後に余裕の少ない案です。':presetName===20?'長机10台・左右各4台＋中央2台。密集配置の比較案です。':'カスタム配置 · 家具の数と位置を調整中';
+ $('objectSelect').innerHTML='<option value="">未選択</option>'+items.map(o=>'<option value="'+o.id+'">'+label(o)+(o.type==='table'?' · '+KINDS[o.kind].w+'×'+KINDS[o.kind].d:' · 直径45')+'cm</option>').join('');
+ $('objectSelect').value=selected;const o=items.find(o=>o.id===selected);
+ for(const id of ['xPos','zPos','deleteObject'])$(id).disabled=!o;
+ $('rotateObject').disabled=!o||o.type!=='table';
+ document.querySelectorAll('[data-move]').forEach(b=>b.disabled=!o);
+ $('xPos').value=o?o.x:'';$('zPos').value=o?o.z:'';
+ $('selectedInfo').textContent=o?label(o)+' / '+(o.type==='table'?KINDS[o.kind].w+'×'+KINDS[o.kind].d+'cm・回転'+o.rot+'°':'直径45cm'):'SVG上の家具をクリックしても選択できます。';
+ const status=$('status');status.className='status '+(issues.length?'bad':narrow.length?'caution':'');
+ status.textContent=issues.length?'要修正：重なり・床外 '+issues.length+'件':narrow.length?'形状の重なりなし / 狭い隙間 '+narrow.length+'件':'形状の重なりなし（安全・収容可否は未判定）';
+ const all=[...issues,...narrow];$('issue-list').innerHTML=all.map(q=>'<li><button data-issue="'+q.ids[0]+'">'+escapeXML(q.text)+'</button></li>').join('');
+ $('inventory').textContent=inventoryNotes();
+ render();
+}
+function choose(id){selected=items.some(o=>o.id===id)?id:'';sync();}
+function updateXY(x,z,record=true){const o=items.find(o=>o.id===selected);if(!o)return;
+ if(!Number.isFinite(x)||!Number.isFinite(z)){sync();return;}const nx=clamp(snap(x),-400,400),nz=clamp(snap(z),-300,300);
+ if(record)message(nx!==x||nz!==z?'入力値を5cm刻み・可動範囲（X ±400cm / Z ±300cm）に補正しました：X '+nx+' / Z '+nz+'cm':'');
+ if(nx===o.x&&nz===o.z){sync();return;}
+ if(record)checkpoint();o.x=nx;o.z=nz;custom();sync();
+}
+function add(type){
+ if(items.filter(o=>o.type===type).length>=(type==='table'?10:20))return;
+ checkpoint();const o=type==='table'?makeTable(0,0,$('addKind').value):makeSeat(0,0);
+ let found=false;
+ for(let z=-160;z<=170&&!found;z+=5)for(let x=-255;x<=255&&!found;x+=5){o.x=x;o.z=z;if(boundaryGap(o)>=0&&clearance(o,HEARTH)>=5&&items.every(p=>clearance(o,p)>=5))found=true;}
+ if(!found){o.x=0;o.z=0;message('空き位置が見つからないため中央に追加しました。赤い重なりを調整してください。');}
+ items.push(o);selected=o.id;custom();sync();
+}
+// Orthographic 3D projected to SVG. cm coordinates remain unchanged by view controls.
+function camera(){const p=view==='top'?Math.PI/2:pitch,a=view==='top'?0:yaw;return{c:Math.cos(a),s:Math.sin(a),cp:Math.cos(p),sp:Math.sin(p)};}
+function raw(x,y,z){const c=camera(),dep=c.s*x+c.c*z;return[c.c*x-c.s*z,c.sp*dep-c.cp*y,c.cp*dep+c.sp*y];}
+function scale(){const corners=[[-335,0,-230],[335,0,-230],[335,0,260],[-335,0,260]].map(p=>raw(...p));const xs=corners.map(p=>p[0]),ys=corners.map(p=>p[1]);return Math.min((W-38)/(Math.max(...xs)-Math.min(...xs)),(H-55)/(Math.max(...ys)-Math.min(...ys)+65))*zoom;}
+function project(x,y,z){const p=raw(x,y,z),s=scale();return[W/2+p[0]*s,H*.48+p[1]*s,p[2]];}
+function textAt(x,y,z,text,size=12,color='#24483d',weight=400){const p=project(x,y,z);return '<text x="'+p[0].toFixed(2)+'" y="'+p[1].toFixed(2)+'" text-anchor="middle" dominant-baseline="middle" font-size="'+size+'" fill="'+color+'" font-weight="'+weight+'" pointer-events="none">'+escapeXML(text)+'</text>';}
+function line3(a,b,color='#6e9384',dash=''){const p=project(...a),q=project(...b);return '<line x1="'+p[0]+'" y1="'+p[1]+'" x2="'+q[0]+'" y2="'+q[1]+'" stroke="'+color+'" stroke-width="1"'+(dash?' stroke-dasharray="'+dash+'"':'')+' pointer-events="none"/>';}
+function render(){
+ svg.setAttribute('viewBox','0 0 '+W+' '+H);svg.classList.toggle('drag-mode',view==='top');
+ let faces=[],annotations='';const c=camera(),look=[c.cp*c.s,c.sp,c.cp*c.c];
+ function face(v,fill,id='',normal=[0,1,0]){
+   if(normal.reduce((n,a,i)=>n+a*look[i],0)<=.00001)return;
+   const pp=v.map(p=>project(...p)),depth=pp.reduce((a,p)=>a+p[2],0)/pp.length;
+   const active=id&&id===selected,stroke=active?'#07665c':badIds.has(id)?'#b8322c':'#776854',width=active?2.5:badIds.has(id)?2:0.7;
+   faces.push({depth,html:'<polygon points="'+pp.map(p=>p[0].toFixed(2)+','+p[1].toFixed(2)).join(' ')+'" fill="'+(badIds.has(id)?'#e6a090':fill)+'" stroke="'+stroke+'" stroke-width="'+width+'" stroke-linejoin="round"'+(id?' data-object="'+id+'"':' pointer-events="none"')+'/>'});
+ }
+ function box(x,y,z,w,h,d,fill,id=''){
+   const a=x-w/2,b=x+w/2,f=z-d/2,k=z+d/2,t=y+h;
+   face([[a,t,f],[b,t,f],[b,t,k],[a,t,k]],fill,id,[0,1,0]);
+   face([[a,y,f],[b,y,f],[b,t,f],[a,t,f]],'#af8159',id,[0,0,-1]);
+   face([[a,y,k],[b,y,k],[b,t,k],[a,t,k]],'#a97852',id,[0,0,1]);
+   face([[a,y,f],[a,y,k],[a,t,k],[a,t,f]],'#b4855c',id,[-1,0,0]);
+   face([[b,y,f],[b,y,k],[b,t,k],[b,t,f]],'#b4855c',id,[1,0,0]);
+ }
+ box(0,-14,0,ROOM.w,14,ROOM.d,'#dfd2b7');
+ const floorFaces=faces;faces=[];
+ // An exact 151 cm outer boundary, including a decorative rim inside it.
+ box(0,.15,HEARTH.z,151,.8,151,'#625c50');
+ box(0,1,HEARTH.z,139,.1,139,'#b2aaa0');
+ // Reference rails outside the measured floor, not assumed pillars or walls.
+ box(0,0,-190,ROOM.w,8,7,'#716855');
+ box(284,0,0,7,8,ROOM.d,'#97b9bb');
+ for(const o of items){
+   if(o.type==='table'){
+     const d=dims(o);
+     if(view!=='top')for(const sx of [-1,1])for(const sz of [-1,1])box(o.x+sx*(d.w/2-7),0,o.z+sz*(d.d/2-7),5,30,5,'#a9774c',o.id);
+     box(o.x,30,o.z,d.w,4,d.d,'#ceaa7b',o.id);
+     annotations+=textAt(o.x,35,o.z,W<450?label(o).replace('机 ',''):label(o),W<450?11:12,'#483621',500);
+   }else{
+     const v=[];
+     for(let i=0;i<24;i++){const a=i/24*Math.PI*2,b=(i+1)/24*Math.PI*2;v.push([o.x+22.5*Math.cos(a),4,o.z+22.5*Math.sin(a)]);
+       face([[o.x+22.5*Math.cos(a),0,o.z+22.5*Math.sin(a)],[o.x+22.5*Math.cos(b),0,o.z+22.5*Math.sin(b)],[o.x+22.5*Math.cos(b),4,o.z+22.5*Math.sin(b)],[o.x+22.5*Math.cos(a),4,o.z+22.5*Math.sin(a)]],'#89a67c',o.id,[Math.cos((a+b)/2),0,Math.sin((a+b)/2)]);
+     }face(v,'#b9cda8',o.id);
+     if(W>=450)annotations+=textAt(o.x,5,o.z,label(o),11,'#334b33');
+   }
+ }
+ faces.sort((a,b)=>a.depth-b.depth);
+ let html='<title>関善会場の実測縮尺レイアウト</title><desc>床561×373cm、囲炉裏151×151cm。選択した家具は真上視点で5cm刻みに動かせます。</desc>';
+ html+=floorFaces.sort((a,b)=>a.depth-b.depth).map(f=>f.html).join('');
+ if($('showGrid').checked&&view==='top'){
+   let grid='';
+   for(let x=-280;x<=280;x+=5)grid+=line3([x,0,-186.5],[x,0,186.5],'#798f79');
+   for(let z=-185;z<=185;z+=5)grid+=line3([-280.5,0,z],[280.5,0,z],'#798f79');
+   html+='<g opacity=".16" pointer-events="none">'+grid+'</g>';
+ }
+ html+=faces.map(f=>f.html).join('');
+ html+=annotations+textAt(0,2,HEARTH.z,'囲炉裏',W<450?11:13,'#423f39',500);
+ html+=textAt(0,0,260,'通路側 · ＋Z',12)+textAt(0,0,-230,'奥壁 · −Z',12);
+ if(W>=450)html+=textAt(304,0,0,'窓側',11);
+ if($('showDims').checked){
+   function dimension(a,b,label,tx,ty,tz){
+     html+=line3(a,b);
+     for(const p of [a,b]){const q=project(...p);html+='<circle cx="'+q[0]+'" cy="'+q[1]+'" r="2.2" fill="#567967" pointer-events="none"/>';}
+     html+=textAt(tx,ty,tz,label,11,'#305a4a',500);
+   }
+   dimension([-280.5,0,202],[280.5,0,202],'561cm',0,0,211);
+   dimension([-308,0,-186.5],[-308,0,186.5],'373cm',-308,0,0);
+   if(W>=450)html+=textAt(0,3,28,'151×151cm',11,'#423f39');
+   if(view==='top'&&W>=560){
+     dimension([-280.5,0,1.5],[-75.5,0,1.5],'205cm',-178,0,1.5);
+     dimension([75.5,0,1.5],[280.5,0,1.5],'205cm',178,0,1.5);
+     dimension([0,0,-186.5],[0,0,-74],'112.5cm',0,0,-125);
+     dimension([0,0,77],[0,0,186.5],'109.5cm',0,0,131);
+   }
+ }
+ svg.innerHTML=html;
+ $('zoomValue').textContent=Math.round(zoom*100)+'%';
+}
+function setView(v){view=v;drag=null;$('view3d').setAttribute('aria-pressed',v==='3d');$('viewTop').setAttribute('aria-pressed',v==='top');$('rotLeft').disabled=v==='top';$('rotRight').disabled=v==='top';$('viewHint').textContent=v==='top'?'家具をドラッグして5cm刻みに移動。矢印キーでも移動可能。数値入力は部屋中心からの座標です。':'家具をクリックして選択。背景ドラッグで視点回転。「真上・移動」で家具を5cm刻みにドラッグできます。';render();}
+function message(s){$('message').textContent=s;}
+function download(name,text,type){const url=URL.createObjectURL(new Blob([text],{type})),a=document.createElement('a');a.href=url;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);}
+function layoutData(){return{version:1,room:ROOM,hearth:{x:0,z:1.5,w:151,d:151},items:structuredClone(items)};}
+function validateImport(data){
+ if(!data||data.version!==1||!Array.isArray(data.items)||data.items.length>30)throw Error('このアプリの配置JSONを選択してください。');
+ const result=[],ids=new Set();
+ for(const a of data.items){
+   if(!a||!['table','seat'].includes(a.type)||typeof a.id!=='string'||!/^[ts]\d+$/.test(a.id)||a.id.length>10||ids.has(a.id)||!Number.isFinite(a.x)||!Number.isFinite(a.z)||Math.abs(a.x)>400||Math.abs(a.z)>300||![0,90,180,270].includes(a.rot)||(a.type==='table'&&!Object.hasOwn(KINDS,a.kind)))throw Error('家具データの形式または座標が不正です。');
+   ids.add(a.id);const o={id:a.id,type:a.type,x:snap(a.x),z:snap(a.z),rot:a.rot};if(a.type==='table')o.kind=a.kind;result.push(o);
+ }
+ if(result.filter(o=>o.type==='table').length>10||result.filter(o=>o.type==='seat').length>20)throw Error('机は10台、座布団は20枚までです。');
+ return result;
+}
+function importData(data){const valid=validateImport(data);checkpoint();items=valid;selected='';custom();nextId=1+Math.max(0,...items.map(o=>+o.id.slice(1)));sync();message('配置を読み込みました。床・囲炉裏は今回の実測値を使用します。');}
+document.querySelectorAll('[data-preset]').forEach(b=>b.onclick=()=>setPreset(+b.dataset.preset));
+$('addTable').onclick=()=>add('table');$('addSeat').onclick=()=>add('seat');
+$('objectSelect').onchange=e=>choose(e.target.value);
+$('xPos').onchange=e=>{const o=items.find(o=>o.id===selected);if(o)updateXY(e.target.valueAsNumber,o.z);};
+$('zPos').onchange=e=>{const o=items.find(o=>o.id===selected);if(o)updateXY(o.x,e.target.valueAsNumber);};
+document.querySelectorAll('[data-move]').forEach(b=>b.onclick=()=>{const o=items.find(o=>o.id===selected);if(o){const [x,z]=b.dataset.move.split(',').map(Number);updateXY(o.x+x,o.z+z);}});
+$('rotateObject').onclick=()=>{const o=items.find(o=>o.id===selected);if(o&&o.type==='table'){checkpoint();o.rot=(o.rot+90)%360;custom();sync();}};
+$('deleteObject').onclick=()=>{if(!selected)return;checkpoint();items=items.filter(o=>o.id!==selected);selected='';custom();sync();};
+$('undo').onclick=()=>{if(!history.length)return;const prev=JSON.parse(history.pop());items=prev.items;selected=prev.selected;presetName=prev.presetName;nextId=prev.nextId;sync();};
+$('view3d').onclick=()=>setView('3d');$('viewTop').onclick=()=>setView('top');
+$('rotLeft').onclick=()=>{yaw-=Math.PI/12;render();};$('rotRight').onclick=()=>{yaw+=Math.PI/12;render();};
+$('zoomOut').onclick=()=>{zoom=clamp(+(zoom-.1).toFixed(2),.6,1.6);render();};$('zoomIn').onclick=()=>{zoom=clamp(+(zoom+.1).toFixed(2),.6,1.6);render();};
+$('showDims').onchange=$('showGrid').onchange=render;
+$('issue-list').onclick=e=>{const b=e.target.closest('[data-issue]');if(b)choose(b.dataset.issue);};
+svg.addEventListener('pointerdown',e=>{
+ if(e.button!==0||drag)return;
+ const id=e.target.closest('[data-object]')?.dataset.object;
+ if(id)choose(id);else choose('');
+ const o=items.find(o=>o.id===selected);
+ drag={pointer:e.pointerId,cx:e.clientX,cy:e.clientY,yaw,pitch,object:view==='top'&&o?o.id:'',x:o?.x,z:o?.z,s:scale(),recorded:false};
+ svg.setPointerCapture(e.pointerId);svg.focus({preventScroll:true});e.preventDefault();
+});
+svg.addEventListener('pointermove',e=>{
+ if(!drag||e.pointerId!==drag.pointer)return;
+ const dx=e.clientX-drag.cx,dy=e.clientY-drag.cy;
+ if(drag.object){
+   const x=snap(drag.x+dx/drag.s),z=snap(drag.z+dy/drag.s),o=items.find(o=>o.id===drag.object);
+   if(o&&(x!==o.x||z!==o.z)){if(!drag.recorded){checkpoint();drag.recorded=true;}updateXY(x,z,false);}
+ }else if(view==='3d'){yaw=drag.yaw+dx*.006;pitch=clamp(drag.pitch+dy*.004,.35,1.45);render();}
+});
+function endDrag(e){if(!drag||e.pointerId!==drag.pointer)return;drag=null;if(svg.hasPointerCapture(e.pointerId))svg.releasePointerCapture(e.pointerId);}
+svg.addEventListener('pointerup',endDrag);svg.addEventListener('pointercancel',endDrag);svg.addEventListener('lostpointercapture',()=>drag=null);
+svg.addEventListener('keydown',e=>{const o=items.find(o=>o.id===selected),dir={ArrowUp:[0,-5],ArrowDown:[0,5],ArrowLeft:[-5,0],ArrowRight:[5,0]}[e.key];if(o&&dir){e.preventDefault();updateXY(o.x+dir[0],o.z+dir[1]);}});
+$('saveLocal').onclick=()=>{try{localStorage.setItem(KEY,JSON.stringify(layoutData()));message('この端末に保存しました。共有する場合は「配置を書き出す」を使用してください。');}catch{message('端末への保存ができません。「配置を書き出す」を使用してください。');}};
+$('restoreLocal').onclick=()=>{try{const s=localStorage.getItem(KEY);if(!s){message('端末に保存した配置はありません。');return;}importData(JSON.parse(s));}catch(e){message('復元できません：'+e.message);}};
+$('exportJSON').onclick=()=>download('kazuno-layout.json',JSON.stringify(layoutData(),null,2),'application/json');
+$('importJSON').onclick=()=>$('jsonFile').click();
+$('jsonFile').onchange=async e=>{const f=e.target.files[0];if(!f)return;try{if(f.size>100000)throw Error('100KB以下の配置JSONを選択してください。');importData(JSON.parse(await f.text()));}catch(error){message('読み込めません：'+error.message);}e.target.value='';};
+$('exportSVG').onclick=()=>{const copy=svg.cloneNode(true);copy.setAttribute('width',W);copy.setAttribute('height',H);copy.insertAdjacentHTML('afterbegin','<rect width="100%" height="100%" fill="#f5f7f3"/>');download('kazuno-layout.svg',new XMLSerializer().serializeToString(copy),'image/svg+xml');message('現在の表示を静的なSVG画像として保存しました。編集状態の保存はJSONを使用してください。');};
+new ResizeObserver(()=>{const r=svg.getBoundingClientRect();W=Math.max(280,r.width);H=r.height;render();}).observe(svg);
+setPreset(12,false);
+})();
+</script>
+</body>
+</html>
