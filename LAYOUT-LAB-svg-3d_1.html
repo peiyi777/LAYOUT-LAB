@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>関善｜SVG 3D会場レイアウト</title>
+<title>第1回会場｜LAYOUT-LAB</title>
 <style>
 :root{color-scheme:light;--ink:#193a42;--sub:#5d7075;--bg:#f1f4f2;--paper:#fff;--border:#d6e0dd;--accent:#12685d;--soft:#e2f2ec;--danger:#b73432;--amber:#855112}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif}button,input,select{font:inherit;color:inherit}button,select,input[type=number]{border:1px solid var(--border);border-radius:8px;background:var(--paper);padding:8px 10px;min-height:40px;max-width:100%}button{cursor:pointer}button:hover:not(:disabled){background:var(--soft)}button:disabled{opacity:.45;cursor:not-allowed}button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible,svg:focus-visible{outline:3px solid #3b9d91;outline-offset:2px}button[aria-pressed=true],.primary{color:#fff;background:var(--accent);border-color:var(--accent)}button[aria-pressed=true]:hover,.primary:hover:not(:disabled){background:#15554e}.danger{color:var(--danger)}
@@ -192,7 +192,7 @@ function render(){
    }
  }
  faces.sort((a,b)=>a.depth-b.depth);
- let html='<title>関善会場の実測縮尺レイアウト</title><desc>床561×373cm、囲炉裏151×151cm。選択した家具は真上視点で5cm刻みに動かせます。</desc>';
+ let html='<title>会場の実測縮尺レイアウト</title><desc>床561×373cm、囲炉裏151×151cm。選択した家具は真上視点で5cm刻みに動かせます。</desc>';
  html+=floorFaces.sort((a,b)=>a.depth-b.depth).map(f=>f.html).join('');
  if($('showGrid').checked&&view==='top'){
    let grid='';
